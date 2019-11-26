@@ -1,4 +1,8 @@
 node_modules
+public/bundle.*
+package-lock.json
+yarn.lock
+/env
 dist
 .env
 secret
