@@ -4,6 +4,39 @@ function saveLoad(e, html, markdownModel, styleModel, fileName) {
       e.preventDefault();
 
       const data = JSON.stringify({
+        title: fileName,
+        slug: fileName.replace(/\s+/g, "-").toLowerCase(),
+        markdown: markdownModel.getValue(),
+        css: styleModel.getValue()
+      });
+
+      async function saveFile() {
+        const location = window.location.hostname;
+        const settings = {
+          method: "POST",
+          body: data,
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          }
+        };
+        try {
+          const fetchResponse = await fetch(
+            `http://${location}:3030/`,
+            settings
+          );
+          const data = fetchResponse;
+          return data;
+        } catch (e) {
+          return e;
+        }
+      }
+
+      saveFile().then(e => {
+        console.log(e);
+      });
+
+      /*const data = JSON.stringify({
         markdown: markdownModel.getValue(),
         css: styleModel.getValue()
       });
@@ -15,6 +48,7 @@ function saveLoad(e, html, markdownModel, styleModel, fileName) {
       const event = document.createEvent("MouseEvents");
       event.initMouseEvent("click");
       link.dispatchEvent(event);
+      */
     } else if (e.keyCode === 72) {
       e.preventDefault();
 
