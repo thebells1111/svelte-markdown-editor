@@ -105,7 +105,6 @@ button{
     margin-left: 1em;
 	}
   label{
-    display:inline-block;
     position: relative;
     float: right;
   }
