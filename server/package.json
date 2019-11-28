@@ -4,14 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index"
+    "dev": "nodemon index",
+    "start": "nodemon index"
   },
   "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "body-parser": "latest",
-    "cors": "^2.8.5",
-    "express": "latest",
-    "nodemon": "^2.0.1"
-  }
+  "license": "MIT"
 }

@@ -27,18 +27,36 @@ app.get("/", function(req, res) {
 
 app.post("/", function(req, res) {
   let post = req.body;
+  post.timestamp = new Date().getTime();
+  const file = path.join(__dirname, "../src/_blog.json");
+
+  const contents = JSON.parse(fs.readFileSync(file, 'utf8'));  
+
+  let index;
+
+  for(let i = 0; i < contents.length; i++){
+    if(contents[i].slug === post.slug){
+      index = i;
+      i = contents.length;
+    } 
+  }
+
+  if(index){
+    contents[index] = post;
+  } else{
+    contents.push(post);
+  }
+
   fs.writeFile(
-    path.join(__dirname, "../cool.json"),
-    JSON.stringify([post]),
+   file,
+    JSON.stringify(contents, null, 2),
     err => {
       if (err) {
-        console.error(err);
-        return;
+        res.status(500).send('write_fail')
       }
-      console.log("File has been created");
+      res.send("ok");
     }
   );
-  res.send("ok");
 });
 
 app.listen(3030, () => console.log("server started"));
