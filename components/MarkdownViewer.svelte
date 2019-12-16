@@ -1,6 +1,5 @@
 <script>
   import { onMount } from "svelte";
-  import "../public/prism.css";
   import * as markdownItAttrs from "markdown-it-attrs";
   const Prism = require("prismjs");
 

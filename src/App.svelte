@@ -10,7 +10,17 @@
   let markdownModel;
   let styleModel;  
   let fileName = 'markdown';  
-  let activeTab = 'markdown'
+  let activeTab = 'header';
+  let snippet = '';
+  let preview = 'preview';
+
+  $: preview = `${fileName}
+
+  ${snippet}
+
+  ${markdown}`;
+  
+  
 
   function markdownContentChange(e) {
     markdown = e.detail.value;
@@ -34,6 +44,7 @@
     markdownModel.setValue(window.localStorage.getItem("markdown"));
     styleModel.setValue(window.localStorage.getItem("css"));
     fileName = window.localStorage.getItem("fileName");
+    snippet = window.localStorage.getItem("snippet");
   });
 
   
@@ -60,6 +71,10 @@
 
 .markdown.editor{
   transform: translateY(-100%);
+}
+
+.header.editor{
+  transform: translateY(-200%);
 }
 
 .active{
@@ -100,14 +115,12 @@ button{
 		color: #000;
 	}
 	
-	input{
-		margin-bottom:0;
-    margin-left: 1em;
+	input, textarea{
+		
+    width: 90%;
+    display: block;
 	}
-  label{
-    position: relative;
-    float: right;
-  }
+  
 
 
 
@@ -119,8 +132,10 @@ button{
   <style type="text/css" id="styler"></style>
 </svelte:head>
 
-<div class="container"> 
+
+<div class="container">     
   <div class="container-left">
+    {fileName}
     <div class="top-bar">
       <button class:active="{activeTab === 'style'}" on:click={()=>
         activeTab='style'}>
@@ -129,8 +144,12 @@ button{
       <button class:active="{activeTab === 'markdown'}"on:click={()=>
         activeTab='markdown'}>
         markdown
-      </button>   
-      <label>File Name:<input type="text" bind:value={fileName} on:input={e=>window.localStorage.setItem("fileName", fileName)}/></label>
+      </button>    
+      <button class:active="{activeTab === 'header'}"on:click={()=>
+        activeTab='header'}>
+        header
+      </button>
+      
     </div>
       <div class="style editor" class:active="{activeTab === 'style'}">        
         <Editor bind:model={styleModel} {...styleOptions} on:didContentChange={styleContentChange}/>
@@ -138,8 +157,12 @@ button{
       <div class="markdown editor" class:active="{activeTab === 'markdown'}">        
         <Editor bind:model={markdownModel} {...markdownOptions} on:didContentChange={markdownContentChange}/>
       </div>
+      <div class="header editor" class:active="{activeTab === 'header'}">  
+        <label>Title:<input type="text" bind:value={fileName} on:input={e=>window.localStorage.setItem("fileName", fileName)}/></label>
+        <label>Snippet:<textarea bind:value={snippet} on:input={e=>window.localStorage.setItem("snippet", snippet)}/></label>
+      </div>
   </div>  
  
-  <Viewer bind:html {markdown}/>  
+  <Viewer bind:html markdown={preview}/>  
 </div>
 
