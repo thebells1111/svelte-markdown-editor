@@ -11,12 +11,13 @@
   let styleModel;  
   let fileName = 'markdown';  
   let activeTab = 'header';
-  let snippet = '';
+  let description = '';
   let preview = 'preview';
+  let published = new Date().toLocaleDateString()
 
-  $: preview = `${fileName}
-
-  ${snippet}
+  $: preview = `# ${fileName}{.post-title}
+  ## ${description}{.post-description}
+  ${published}
 
   ${markdown}`;
   
@@ -36,7 +37,7 @@
     window.localStorage.setItem("css", css);
   }
 
-  function handleKeydown(e) {
+  function handleKeydown(e) {    
     fileName = saveLoad(e, html, markdownModel, styleModel, fileName) || fileName;    
   }
 
@@ -44,7 +45,8 @@
     markdownModel.setValue(window.localStorage.getItem("markdown"));
     styleModel.setValue(window.localStorage.getItem("css"));
     fileName = window.localStorage.getItem("fileName");
-    snippet = window.localStorage.getItem("snippet");
+    description = window.localStorage.getItem("description");
+    published = window.localStorage.getItem("published") || published;
   });
 
   
@@ -159,7 +161,7 @@ button{
       </div>
       <div class="header editor" class:active="{activeTab === 'header'}">  
         <label>Title:<input type="text" bind:value={fileName} on:input={e=>window.localStorage.setItem("fileName", fileName)}/></label>
-        <label>Snippet:<textarea bind:value={snippet} on:input={e=>window.localStorage.setItem("snippet", snippet)}/></label>
+        <label>Description:<textarea bind:value={description} on:input={e=>window.localStorage.setItem("description", description)}/></label>
       </div>
   </div>  
  

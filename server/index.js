@@ -27,36 +27,35 @@ app.get("/", function(req, res) {
 
 app.post("/", function(req, res) {
   let post = req.body;
-  post.timestamp = new Date().getTime();
+  let currentTime = new Date().getTime();
   const file = path.join(__dirname, "../src/_blog.json");
 
-  const contents = JSON.parse(fs.readFileSync(file, 'utf8'));  
+  const contents = JSON.parse(fs.readFileSync(file, "utf8"));
 
   let index;
 
-  for(let i = 0; i < contents.length; i++){
-    if(contents[i].slug === post.slug){
+  for (let i = 0; i < contents.length; i++) {
+    if (contents[i].slug === post.slug) {
+      post.timestamp = contents[i].timestamp;
       index = i;
       i = contents.length;
-    } 
+    }
   }
 
-  if(index){
+  if (index > -1) {
+    post.updated = currentTime;
     contents[index] = post;
-  } else{
+  } else {
+    post.timestamp = currentTime;
     contents.push(post);
   }
 
-  fs.writeFile(
-   file,
-    JSON.stringify(contents, null, 2),
-    err => {
-      if (err) {
-        res.status(500).send('write_fail')
-      }
-      res.send("ok");
+  fs.writeFile(file, JSON.stringify(contents, null, 2), err => {
+    if (err) {
+      res.status(500).send("write_fail");
     }
-  );
+    res.send("ok");
+  });
 });
 
 app.listen(3030, () => console.log("server started"));

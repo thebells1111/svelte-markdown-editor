@@ -2,8 +2,18 @@
   import { onMount } from "svelte";
   import * as markdownItAttrs from "markdown-it-attrs";
   const Prism = require("prismjs");
+  const mkdown = require("markdown-it");
 
-  let md = require("markdown-it")({
+  export let markdown;
+  export let html;
+  let observed;
+  let oldNode = [];
+  $: rendered = md.render(markdown);
+  $: if (html !== rendered) {
+    html = rendered;
+  }
+
+  let md = mkdown({
     html: true,
     highlight: (str, lang) => {
       if (lang) {
@@ -25,15 +35,6 @@
   });
   md.use(markdownItAttrs);
 
-  export let markdown;
-  export let html;
-  let observed;
-  let oldNode = [];
-  $: rendered = md.render(markdown);
-  $: if (html !== rendered) {
-    html = rendered;
-  }
-
   onMount(() => {
     var mutationObserver = new MutationObserver(function(mutations) {
       let nodes = [...mutations[0].addedNodes].filter(
@@ -53,7 +54,7 @@
           //console.log(node.innerHTML);
           //console.log(oldNode[i].innerHTML);
         } else {
-          node.scrollIntoView();
+          //node.scrollIntoView();
         }
       });
 
