@@ -1,0 +1,2 @@
+- change saveLoad to load articles from _blog.json
+- add css for .post-description and .post-title

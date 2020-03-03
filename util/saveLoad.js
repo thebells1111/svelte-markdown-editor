@@ -1,14 +1,30 @@
+function copyToClipboard(text) {
+  var dummy = document.createElement('textarea');
+  // to avoid breaking orgain page when copying more words
+  // cant copy when adding below this code
+  // dummy.style.display = 'none'
+  document.body.appendChild(dummy);
+  //Be careful if you use texarea. setAttribute('value', value), which works with "input" does not work with "textarea". – Eduard
+  dummy.value = text;
+  dummy.select();
+  document.execCommand('copy');
+  document.body.removeChild(dummy);
+}
+
 function saveLoad(e, html, markdownModel, styleModel, fileName) {
-  if (window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) {
+  if (window.navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey) {
     if (e.keyCode === 83) {
+      //Ctrl-s
       e.preventDefault();
 
       const data = JSON.stringify({
         title: fileName,
-        slug: fileName.replace(/\s+/g, "-").toLowerCase(),
+        slug: fileName.replace(/\s+/g, '-').toLowerCase(),
         markdown: markdownModel.getValue(),
-        css: styleModel.getValue()
+        css: styleModel.getValue(),
       });
+
+      /*
 
       async function saveFile() {
         const location = window.location.hostname;
@@ -35,47 +51,28 @@ function saveLoad(e, html, markdownModel, styleModel, fileName) {
       saveFile().then(e => {
         console.log(e);
       });
-
-      /*const data = JSON.stringify({
-        markdown: markdownModel.getValue(),
-        css: styleModel.getValue()
-      });
-      const blob = new Blob([data], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", fileName + ".json");
-      const event = document.createEvent("MouseEvents");
-      event.initMouseEvent("click");
-      link.dispatchEvent(event);
       */
-    } else if (e.keyCode === 72) {
-      e.preventDefault();
 
-      const data = `
-        {
-          html: 
-          \`${html}\`,            
-        css: 
-          \`${styleModel.getValue()}\`
-        }
-      `;
-
-      const blob = new Blob([data], { type: "text/plain" });
+      const blob = new Blob([data], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", fileName + ".txt");
-      const event = document.createEvent("MouseEvents");
-      event.initMouseEvent("click");
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', fileName + '.json');
+      const event = document.createEvent('MouseEvents');
+      event.initMouseEvent('click');
       link.dispatchEvent(event);
-    } else if (e.keyCode === 76) {
+    } else if (e.keyCode === 72) {
+      //Ctrl-h
       e.preventDefault();
-      const input = document.createElement("input");
-      input.setAttribute("type", "file");
-      input.addEventListener("change", readFile);
-      const event = document.createEvent("MouseEvents");
-      event.initMouseEvent("click");
+      copyToClipboard(html);
+    } else if (e.keyCode === 76) {
+      //Ctrl-l
+      e.preventDefault();
+      const input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.addEventListener('change', readFile);
+      const event = document.createEvent('MouseEvents');
+      event.initMouseEvent('click');
       input.dispatchEvent(event);
 
       function readFile(evt) {
@@ -90,7 +87,7 @@ function saveLoad(e, html, markdownModel, styleModel, fileName) {
           };
           r.readAsText(f);
         } else {
-          alert("Failed to load file");
+          alert('Failed to load file');
         }
       }
     }

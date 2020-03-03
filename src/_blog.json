@@ -6,5 +6,13 @@
     "css": ".ul-one {\r\n  display: flex;\r\n  flex: 1 1 auto;\r\n  margin: 0;\r\n  padding: 0;\r\n  justify-content: flex-end;\r\n  border: 1px solid #111\r\n}\r\n\r\n.ul-one li {\r\n  list-style: none;\r\n  text-decoration: none;\r\n  color: #111;\r\n  position: relative;\r\n  transition: all 0.4s ease;\r\n  padding: 0 0.5em 0.25em 0.5em;\r\n  cursor: pointer;\r\n} \r\n\r\n.post-title{\r\n  color: red\r\n}\r\n\r\n.post-description{\r\n  font-weight: 100;\r\n  font-size: 20px;\r\n}",
     "timestamp": 1576607222782,
     "updated": 1576607374001
+  },
+  {
+    "title": "markdown",
+    "slug": "markdown",
+    "markdown": "this is `code`",
+    "css": "code{\r\n  background-color: wheat\r\n};\r\n",
+    "timestamp": 1583256602747,
+    "updated": 1583256608859
   }
 ]

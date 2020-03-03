@@ -1,8 +1,8 @@
 <script>
-  import { onMount } from "svelte";
-  import * as markdownItAttrs from "markdown-it-attrs";
-  const Prism = require("prismjs");
-  const mkdown = require("markdown-it");
+  import { onMount } from 'svelte';
+  import * as markdownItAttrs from 'markdown-it-attrs';
+  const Prism = require('prismjs');
+  const mkdown = require('markdown-it');
 
   export let markdown;
   export let html;
@@ -22,16 +22,16 @@
           return (
             `<pre class=" language-${lang}"><code class=" language-${lang}>` +
             Prism.highlight(str, langObject, lang) +
-            "</code></pre>"
+            '</code></pre>'
           );
         } catch (__) {}
       }
       return (
         `<pre class=" language-${lang}><code class=" language-${lang}>` +
         md.utils.escapeHtml(str) +
-        "</code></pre>"
+        '</code></pre>'
       );
-    }
+    },
   });
   md.use(markdownItAttrs);
 
@@ -66,7 +66,7 @@
       characterData: true,
       childList: true,
       attributeOldValue: true,
-      characterDataOldValue: true
+      characterDataOldValue: true,
     });
   });
 </script>
@@ -79,6 +79,6 @@
   }
 </style>
 
-<div bind:this="{observed}">
+<div bind:this={observed}>
   {@html rendered}
 </div>
